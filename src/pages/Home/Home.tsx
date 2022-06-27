@@ -1,6 +1,7 @@
-import { Box, Button, CircularProgress } from "@mui/material";
-import { FormEvent, useEffect, useState } from "react";
+import { Box, CircularProgress } from "@mui/material";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 import Header from "../../components/Header";
+import Paginator from "../../components/Paginator/Paginator";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import BooksCardList from "../../Containers/BooksCardList";
 import { BookApiReturn } from "../../types/Books";
@@ -11,25 +12,35 @@ function Home() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [maxResults, setMaxResults] = useState(20);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const totalPages = Math.ceil((books?.totalItems ?? 0) / maxResults);
+
+  const search =  useCallback(async ({q='', maxResults=20, page=1 }) => {
+    setLoading(true);
+    const books = await getBooks({ q, maxResults, page });
+    setBooks(books);
+    setLoading(false);
+  }, [])
+
+  const handleSubmit = (e?: FormEvent) => {
+    e?.preventDefault();
+    setPage(1);
+  };
 
   useEffect(() => {
-    const getLivros = async () =>
-      await getBooks({ q: searchQuery, maxResults });
-    getLivros().then((data) => {
-      setBooks(data);
-      setLoading(false);
-    });
-  }, []);
+    search({page, q: searchQuery, maxResults});
+  }, [page]);
 
-  const search = (e: FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    getBooks({ q: searchQuery, maxResults }).then((data) => {
-      setBooks(data);
-      setLoading(false);
-    });
-    
-  };
+  useEffect(() => {
+    setPage(1);
+  }, [maxResults])
+
+  const handlePage = useCallback(
+    (destinedPage: number) => {
+      setPage(destinedPage);
+    },
+    [setPage]
+  );
 
   return (
     <section>
@@ -39,7 +50,7 @@ function Home() {
         setSearchQuery={setSearchQuery}
         maxResults={maxResults}
         setMaxResults={setMaxResults}
-        onSubmit={search}
+        onSubmit={handleSubmit}
       />
       {loading ? (
         <Box
@@ -54,6 +65,7 @@ function Home() {
       ) : (
         <BooksCardList books={books} />
       )}
+      <Paginator handlePage={handlePage} page={page} totalPages={totalPages} />
     </section>
   );
 }

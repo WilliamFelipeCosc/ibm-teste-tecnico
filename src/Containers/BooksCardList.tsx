@@ -4,11 +4,10 @@ import BookCard from "../components/BookCard/BookCard";
 import { BookApiReturn } from "../types/Books";
 
 interface Props {
-  books?: BookApiReturn ;
+  books?: BookApiReturn;
 }
 
 function BooksCardList({ books }: Props) {
-  
   return (
     <Box
       display={"flex"}
