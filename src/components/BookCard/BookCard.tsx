@@ -9,22 +9,38 @@ import {
 } from "@mui/material";
 import { Book } from "../../types/Books";
 import LinesEllipsis from "react-lines-ellipsis";
+import bookFallbackImage from "../../assets/bookFallbackImage.png";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   book: Book;
 }
 
 function BookCard({ book }: Props) {
+  let navigate = useNavigate();
+
+  const handleClick = () => navigate("/details/" + book.id);
+
   return (
-    <Card sx={{ width: 272, height: 475, margin: 2, display:'flex', flexDirection:'column', justifyContent: 'space-between' }}>
-      <CardActionArea>
+    <Card
+      sx={{
+        width: 272,
+        height: 475,
+        margin: 2,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+      }}
+    >
+      <CardActionArea onClick={handleClick}>
         <CardMedia
           component="img"
-          height="312"
-          sx={{ objectFit: 'fill'}}
+          height="272"
+          sx={{ objectFit: "fill" }}
           image={
             book.volumeInfo?.imageLinks?.smallThumbnail ||
-            book.volumeInfo?.imageLinks?.thumbnail
+            book.volumeInfo?.imageLinks?.thumbnail ||
+            bookFallbackImage
           }
           alt={book?.volumeInfo?.title}
         />
@@ -40,7 +56,11 @@ function BookCard({ book }: Props) {
           </Typography>
           <Typography variant="body2" color="text.secondary">
             <LinesEllipsis
-              text={book?.volumeInfo?.subtitle || book?.volumeInfo?.description}
+              text={
+                book?.volumeInfo?.subtitle ||
+                book?.volumeInfo?.description ||
+                "Não há descrição para esse livro"
+              }
               maxLine="3"
               ellipsis="..."
               trimRight
@@ -49,7 +69,7 @@ function BookCard({ book }: Props) {
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions sx={{display:'flex', alignItems:'flex-end'}}>
+      <CardActions sx={{ display: "flex", alignItems: "flex-end" }}>
         <Button size="small" color="primary">
           Favoritar
         </Button>
