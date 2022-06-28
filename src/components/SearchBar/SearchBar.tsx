@@ -67,7 +67,14 @@ function SearchBar(props: Props) {
             ))}
           </TextField>
         </Grid>
-        <Grid item xs={12} sm={12} md={4} sx={{alignItems:{md:'center'}}}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={4}
+          display="flex"
+          sx={{ justifyContent: { xs: "center", sm: 'center', md: 'flex-start' }, mt: {xs: 2, sm: 2} }}
+        >
           <Button variant="outlined" color="primary" type="submit">
             Pesquisar
           </Button>

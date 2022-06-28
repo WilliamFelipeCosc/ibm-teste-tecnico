@@ -24,6 +24,9 @@ function Home() {
 
   const handleSubmit = (e?: FormEvent) => {
     e?.preventDefault();
+    if(page === 1){
+      search({q:searchQuery, maxResults})
+    }
     setPage(1);
   };
 
