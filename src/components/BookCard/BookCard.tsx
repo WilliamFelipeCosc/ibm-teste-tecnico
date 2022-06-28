@@ -11,12 +11,16 @@ import { Book } from "../../types/Books";
 import LinesEllipsis from "react-lines-ellipsis";
 import bookFallbackImage from "../../assets/bookFallbackImage.png";
 import { useNavigate } from "react-router-dom";
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 interface Props {
   book: Book;
+  favorite: boolean;
+  setFavorite: (id:string) => void
 }
 
-function BookCard({ book }: Props) {
+function BookCard({ book, favorite, setFavorite }: Props) {
   let navigate = useNavigate();
 
   const handleClick = () => navigate("/details/" + book.id);
@@ -70,8 +74,8 @@ function BookCard({ book }: Props) {
         </CardContent>
       </CardActionArea>
       <CardActions sx={{ display: "flex", alignItems: "flex-end" }}>
-        <Button size="small" color="primary">
-          Favoritar
+        <Button size="small" color="primary" onClick={() => setFavorite(book.id)}>
+          {favorite ? <StarIcon/> : <StarBorderIcon/>}
         </Button>
       </CardActions>
     </Card>

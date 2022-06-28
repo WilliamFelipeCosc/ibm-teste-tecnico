@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Hidden } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
@@ -11,6 +11,7 @@ interface Props {
 function Paginator({ handlePage, page, totalPages }: Props) {
   const makePageButtons = () => {
     const arr = [];
+    const responsiveArr = [];
 
     if (page > 5) {
       for (let x = page - 5; x < page + 6 && x <= totalPages; x++) {
@@ -22,7 +23,17 @@ function Paginator({ handlePage, page, totalPages }: Props) {
       }
     }
 
-    return arr;
+    if (page > 3) {
+      for (let x = page - 1; x < page + 2 && x <= totalPages; x++) {
+        responsiveArr.push(x);
+      }
+    } else {
+      for (let x = 1; x < 5; x++) {
+        responsiveArr.push(x);
+      }
+    }
+
+    return { arr, responsiveArr };
   };
   return (
     <Box
@@ -41,16 +52,31 @@ function Paginator({ handlePage, page, totalPages }: Props) {
       >
         <ChevronLeftIcon />
       </Button>
-      {makePageButtons().map((x) => (
-        <Button
-          key={x}
-          variant="text"
-          color={x === page ? "primary" : "inherit"}
-          onClick={() => handlePage(x)}
-        >
-          {x}
-        </Button>
-      ))}
+      <Hidden mdDown>
+        {makePageButtons().arr.map((x) => (
+          <Button
+            key={x}
+            variant="text"
+            color={x === page ? "primary" : "inherit"}
+            onClick={() => handlePage(x)}
+          >
+            {x}
+          </Button>
+        ))}
+      </Hidden>
+      <Hidden mdUp>
+        {makePageButtons().responsiveArr.map((x) => (
+          <Button
+            key={x}
+            variant="text"
+            color={x === page ? "primary" : "inherit"}
+            onClick={() => handlePage(x)}
+          >
+            {x}
+          </Button>
+        ))}
+      </Hidden>
+
       <Button
         disabled={page >= totalPages}
         variant="text"
