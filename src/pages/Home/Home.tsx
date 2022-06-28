@@ -3,7 +3,7 @@ import { FormEvent, useCallback, useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Paginator from "../../components/Paginator/Paginator";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import BooksCardList from "../../Containers/BooksCardList";
+import BooksCardList from "../../containers/BooksCardList";
 import { BookApiReturn } from "../../types/Books";
 import { getBooks } from "../../utils/bookApi";
 

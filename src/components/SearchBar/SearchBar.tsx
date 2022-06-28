@@ -32,7 +32,7 @@ function SearchBar(props: Props) {
   return (
     <Box width={"80%"} mx="auto" component="form" onSubmit={onSubmit}>
       <Grid container columnGap={2} alignItems="flex-end">
-        <Grid item sm={12} md={6}>
+        <Grid item xs={12} sm={12} md={6}>
           <TextField
             label="Pesquisar"
             variant="standard"
@@ -50,7 +50,7 @@ function SearchBar(props: Props) {
             }}
           />
         </Grid>
-        <Grid item sm={12} md={2} lg={1}>
+        <Grid item xs={12} sm={12} md={2} lg={1}>
           <TextField
             variant="standard"
             select
@@ -67,7 +67,7 @@ function SearchBar(props: Props) {
             ))}
           </TextField>
         </Grid>
-        <Grid item sm={12} md={4}>
+        <Grid item xs={12} sm={12} md={4} sx={{alignItems:{md:'center'}}}>
           <Button variant="outlined" color="primary" type="submit">
             Pesquisar
           </Button>
