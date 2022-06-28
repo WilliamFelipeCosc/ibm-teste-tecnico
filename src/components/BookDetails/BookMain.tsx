@@ -14,7 +14,11 @@ function BookMain({ volumeInfo, saleInfo }: Props) {
         <Grid item sm={12} md={6}>
           <Typography variant="h2">{volumeInfo?.title}</Typography>
           {volumeInfo?.subtitle && (
-            <Typography variant="subtitle1">{volumeInfo?.subtitle}</Typography>
+            <Box my={0.5}>
+              <Typography variant="subtitle1">
+                {volumeInfo?.subtitle}
+              </Typography>
+            </Box>
           )}
           <Typography variant="h5">
             Por{" "}
@@ -22,7 +26,7 @@ function BookMain({ volumeInfo, saleInfo }: Props) {
               (author, i) => `${author} ${i > 0 ? ", " : ""}`
             )}
           </Typography>
-          <Box mt={2}>
+          <Box mt={3}>
             Lançado em{" "}
             <ParsedDate date={new Date(volumeInfo?.publishedDate!)} />
           </Box>
